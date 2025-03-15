@@ -1,0 +1,1260 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "NpmStats API",
+      "description": "API for analyzing and monitoring NPM packages, providing statistics, bundle analysis, and dependency insights",
+      "license": {
+        "name": "MIT"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://api.npmstats.com"
+      }
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "paths": {
+      "/package/{name}/stats": {
+        "get": {
+          "summary": "Get Package Stats",
+          "description": "Returns detailed statistics and analytics for NPM packages",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "period",
+              "in": "query",
+              "description": "Time period for stats",
+              "schema": {
+                "type": "string",
+                "enum": ["day", "week", "month", "year"],
+                "default": "month"
+              }
+            },
+            {
+              "name": "from",
+              "in": "query",
+              "description": "Start date (YYYY-MM-DD)",
+              "schema": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            {
+              "name": "to",
+              "in": "query",
+              "description": "End date (YYYY-MM-DD)",
+              "schema": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            {
+              "name": "version",
+              "in": "query",
+              "description": "Package version",
+              "schema": {
+                "type": "string",
+                "default": "latest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Package statistics response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PackageStats"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Package not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/bundle": {
+        "get": {
+          "summary": "Get Bundle Size",
+          "description": "Returns bundle size analysis for NPM packages",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "version",
+              "in": "query",
+              "description": "Package version",
+              "schema": {
+                "type": "string",
+                "default": "latest"
+              }
+            },
+            {
+              "name": "format",
+              "in": "query",
+              "description": "Module format",
+              "schema": {
+                "type": "string",
+                "enum": ["modern", "legacy", "umd"],
+                "default": "modern"
+              }
+            },
+            {
+              "name": "include_deps",
+              "in": "query",
+              "description": "Include dependency sizes",
+              "schema": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            {
+              "name": "minify",
+              "in": "query",
+              "description": "Calculate minified sizes",
+              "schema": {
+                "type": "boolean",
+                "default": true
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Bundle analysis response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BundleAnalysis"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Package not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/dependencies": {
+        "get": {
+          "summary": "Get Dependencies",
+          "description": "Returns dependency tree and analysis for NPM packages",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "version",
+              "in": "query",
+              "description": "Package version",
+              "schema": {
+                "type": "string",
+                "default": "latest"
+              }
+            },
+            {
+              "name": "depth",
+              "in": "query",
+              "description": "Maximum depth of dependency tree",
+              "schema": {
+                "type": "integer",
+                "default": 1
+              }
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "description": "Type of dependencies to include",
+              "schema": {
+                "type": "string",
+                "enum": ["all", "prod", "dev", "peer"],
+                "default": "all"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dependencies analysis response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DependencyAnalysis"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Package not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/security": {
+        "get": {
+          "summary": "Get Security Analysis",
+          "description": "Returns security vulnerabilities and analysis for NPM packages",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "version",
+              "in": "query",
+              "description": "Package version",
+              "schema": {
+                "type": "string",
+                "default": "latest"
+              }
+            },
+            {
+              "name": "severity",
+              "in": "query",
+              "description": "Minimum severity level",
+              "schema": {
+                "type": "string",
+                "enum": ["low", "moderate", "high", "critical"],
+                "default": "low"
+              }
+            },
+            {
+              "name": "include_deps",
+              "in": "query",
+              "description": "Include dependency vulnerabilities",
+              "schema": {
+                "type": "boolean",
+                "default": true
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Security analysis response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SecurityAnalysis"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Package not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/search": {
+        "get": {
+          "summary": "Search Packages",
+          "description": "Search and discover NPM packages",
+          "parameters": [
+            {
+              "name": "q",
+              "in": "query",
+              "description": "Search query",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "category",
+              "in": "query",
+              "description": "Package category",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "tags",
+              "in": "query",
+              "description": "Package tags (comma-separated)",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "description": "Sort order",
+              "schema": {
+                "type": "string",
+                "enum": ["relevance", "popularity", "quality", "maintenance"],
+                "default": "relevance"
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of results per page",
+              "schema": {
+                "type": "integer",
+                "default": 20,
+                "maximum": 100
+              }
+            },
+            {
+              "name": "offset",
+              "in": "query",
+              "description": "Number of results to skip",
+              "schema": {
+                "type": "integer",
+                "default": 0
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Search results",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SearchResults"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/similar": {
+        "get": {
+          "summary": "Get Similar Packages",
+          "description": "Find similar packages based on functionality, usage patterns, and dependencies",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of similar packages to return",
+              "schema": {
+                "type": "integer",
+                "default": 10,
+                "maximum": 50
+              }
+            },
+            {
+              "name": "criteria",
+              "in": "query",
+              "description": "Similarity criteria",
+              "schema": {
+                "type": "string",
+                "enum": ["functionality", "dependencies", "usage", "all"],
+                "default": "all"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Similar packages response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/SimilarPackages"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Package not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/health": {
+        "get": {
+          "summary": "Get Health Status",
+          "description": "Check the health status of the NpmStats API",
+          "parameters": [
+            {
+              "name": "detailed",
+              "in": "query",
+              "description": "Include detailed component status",
+              "schema": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            {
+              "name": "services",
+              "in": "query",
+              "description": "Specific services to check (comma-separated)",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Health check response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HealthStatus"
+                  }
+                }
+              }
+            },
+            "503": {
+              "description": "Service unavailable",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/webhooks": {
+        "get": {
+          "summary": "List Webhooks",
+          "description": "List all configured webhooks",
+          "responses": {
+            "200": {
+              "description": "List of webhooks",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/WebhookList"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create Webhook",
+          "description": "Create a new webhook configuration",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookCreate"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Webhook created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Webhook"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/versions": {
+        "get": {
+          "summary": "Get Version History",
+          "description": "Returns version history and analysis for NPM packages",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Maximum number of versions to return",
+              "schema": {
+                "type": "integer",
+                "default": 20,
+                "maximum": 100
+              }
+            },
+            {
+              "name": "include",
+              "in": "query",
+              "description": "Include additional details",
+              "schema": {
+                "type": "string",
+                "enum": ["basic", "full"],
+                "default": "basic"
+              }
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "description": "Sort order for versions",
+              "schema": {
+                "type": "string",
+                "enum": ["date", "semver"],
+                "default": "date"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Version history response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VersionHistory"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Package not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/version/{version}": {
+        "get": {
+          "summary": "Get Version Details",
+          "description": "Returns detailed information about a specific version",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "version",
+              "in": "path",
+              "description": "Package version",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Version details response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VersionDetails"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Version not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/package/{name}/versions/compare": {
+        "get": {
+          "summary": "Compare Versions",
+          "description": "Compare two versions of a package",
+          "parameters": [
+            {
+              "name": "name",
+              "in": "path",
+              "description": "NPM package name",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "from",
+              "in": "query",
+              "description": "Base version for comparison",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "to",
+              "in": "query",
+              "description": "Target version for comparison",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Version comparison response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VersionComparison"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid parameters",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Version not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "PackageStats": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "package": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "downloads": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer"
+                    },
+                    "weekly": {
+                      "type": "integer"
+                    },
+                    "monthly": {
+                      "type": "integer"
+                    },
+                    "yearly": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "growth": {
+                  "type": "object",
+                  "properties": {
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "trend": {
+                      "type": "string",
+                      "enum": ["increasing", "decreasing", "stable"]
+                    }
+                  }
+                },
+                "popularity": {
+                  "type": "object",
+                  "properties": {
+                    "score": {
+                      "type": "number"
+                    },
+                    "rank": {
+                      "type": "integer"
+                    },
+                    "category_rank": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "period": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "end": {
+                      "type": "string",
+                      "format": "date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "BundleAnalysis": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "package": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "sizes": {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "integer"
+                    },
+                    "minified": {
+                      "type": "integer"
+                    },
+                    "gzip": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "formats": {
+                  "type": "object",
+                  "properties": {
+                    "modern": {
+                      "$ref": "#/components/schemas/BundleSize"
+                    },
+                    "legacy": {
+                      "$ref": "#/components/schemas/BundleSize"
+                    }
+                  }
+                },
+                "tree_shaking": {
+                  "type": "object",
+                  "properties": {
+                    "supported": {
+                      "type": "boolean"
+                    },
+                    "side_effects": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "dependencies": {
+                  "type": "object",
+                  "properties": {
+                    "total_size": {
+                      "type": "integer"
+                    },
+                    "breakdown": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "BundleSize": {
+          "type": "object",
+          "properties": {
+            "raw": {
+              "type": "integer"
+            },
+            "minified": {
+              "type": "integer"
+            },
+            "gzip": {
+              "type": "integer"
+            }
+          }
+        },
+        "DependencyAnalysis": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "direct": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Dependency"
+                  }
+                },
+                "dev": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Dependency"
+                  }
+                },
+                "peer": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Dependency"
+                  }
+                },
+                "tree": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/DependencyTree"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "SecurityAnalysis": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "vulnerabilities": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vulnerability"
+                  }
+                },
+                "summary": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer"
+                    },
+                    "critical": {
+                      "type": "integer"
+                    },
+                    "high": {
+                      "type": "integer"
+                    },
+                    "moderate": {
+                      "type": "integer"
+                    },
+                    "low": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "SearchResults": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "integer"
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "SimilarPackages": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SimilarPackage"
+              }
+            }
+          }
+        },
+        "HealthStatus": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": ["healthy", "degraded", "down"]
+                },
+                "version": {
+                  "type": "string"
+                },
+                "uptime": {
+                  "type": "number"
+                },
+                "services": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/ServiceHealth"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "WebhookList": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Webhook"
+              }
+            }
+          }
+        },
+        "Webhook": {
+          "type": "object",
+          "required": ["id", "url", "events"],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "active": {
+              "type": "boolean"
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "WebhookCreate": {
+          "type": "object",
+          "required": ["url", "events"],
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "Error": {
+          "type": "object",
+          "required": ["error"],
+          "properties": {
+            "error": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "VersionHistory": {
+          "type": "object",
+          "required": ["success", "data"],
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "total_versions": {
+                  "type": "integer"
+                },
+                "latest": {
+                  "$ref": "#/components/schemas/VersionInfo"
+                },
+                "versions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VersionInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      }
+    }
+  }

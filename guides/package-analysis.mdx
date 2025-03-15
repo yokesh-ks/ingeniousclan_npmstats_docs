@@ -1,0 +1,324 @@
+---
+title: 'Package Analysis Guide'
+description: 'Learn how to analyze NPM packages effectively using NpmStats'
+---
+
+## Introduction
+
+Package analysis is crucial for making informed decisions about dependencies in your projects. This guide will walk you through using NpmStats to perform comprehensive package analysis, from basic metrics to advanced insights.
+
+## Understanding Package Metrics
+
+### Key Metrics
+
+<CardGroup cols={2}>
+  <Card title="Download Statistics" icon="chart-line">
+    - Weekly downloads
+    - Monthly trends
+    - Geographic distribution
+    - Version adoption rates
+  </Card>
+  <Card title="Bundle Analysis" icon="box">
+    - Bundle size
+    - Tree-shaking support
+    - Side effects
+    - Dependencies impact
+  </Card>
+  <Card title="Code Quality" icon="code">
+    - Maintainability score
+    - Test coverage
+    - Documentation quality
+    - TypeScript support
+  </Card>
+  <Card title="Community Health" icon="users">
+    - GitHub stars
+    - Open issues
+    - Pull requests
+    - Contributor count
+  </Card>
+</CardGroup>
+
+## Analyzing a Package
+
+### Basic Analysis
+
+```typescript
+import { NpmStats } from '@npmstats/api';
+
+const client = new NpmStats('your-api-key');
+
+// Get package overview
+const analysis = await client.getPackageStats({
+  name: 'react',
+  include: ['downloads', 'bundle', 'quality']
+});
+
+// Check key metrics
+console.log('Weekly Downloads:', analysis.downloads.weekly);
+console.log('Bundle Size:', analysis.bundle.gzip, 'bytes (gzipped)');
+console.log('Quality Score:', analysis.quality.score);
+```
+
+### Deep Dive Analysis
+
+<Steps>
+  <Step title="Download Trends">
+    Analyze download patterns to understand package popularity and stability:
+    ```typescript
+    const trends = await client.getDownloadTrends({
+      name: 'react',
+      period: 'last-year'
+    });
+
+    // Plot trends
+    const monthlyDownloads = trends.data.monthly;
+    const growthRate = trends.data.growth_rate;
+    ```
+  </Step>
+
+  <Step title="Bundle Analysis">
+    Examine bundle size and optimization potential:
+    ```typescript
+    const bundle = await client.getBundleAnalysis({
+      name: 'react',
+      version: '18.2.0'
+    });
+
+    // Check size impact
+    console.log('Original:', bundle.size.raw);
+    console.log('Minified:', bundle.size.minified);
+    console.log('Gzipped:', bundle.size.gzip);
+    ```
+  </Step>
+
+  <Step title="Quality Assessment">
+    Review code quality and maintenance metrics:
+    ```typescript
+    const quality = await client.getQualityMetrics({
+      name: 'react'
+    });
+
+    // Evaluate quality factors
+    const {
+      maintenance,
+      popularity,
+      quality: codeQuality
+    } = quality.scores;
+    ```
+  </Step>
+
+  <Step title="Security Scan">
+    Check for security vulnerabilities:
+    ```typescript
+    const security = await client.getSecurityInfo({
+      name: 'react',
+      include_advisories: true
+    });
+
+    if (security.vulnerabilities.length > 0) {
+      console.warn('Security issues found!');
+    }
+    ```
+  </Step>
+</Steps>
+
+## Making Informed Decisions
+
+### Decision Framework
+
+<AccordionGroup>
+  <Accordion title="Popularity Assessment">
+    - Analyze download trends
+    - Check adoption rates
+    - Review geographic distribution
+    - Compare with alternatives
+  </Accordion>
+  
+  <Accordion title="Technical Evaluation">
+    - Bundle size impact
+    - Performance metrics
+    - Browser compatibility
+    - Platform support
+  </Accordion>
+  
+  <Accordion title="Maintenance Status">
+    - Update frequency
+    - Issue resolution time
+    - Documentation quality
+    - Community engagement
+  </Accordion>
+  
+  <Accordion title="Security Considerations">
+    - Vulnerability history
+    - Fix response time
+    - Security policy
+    - Dependency audit
+  </Accordion>
+</AccordionGroup>
+
+### Comparison Analysis
+
+```typescript
+// Compare multiple packages
+async function comparePackages(packages: string[]) {
+  const results = await Promise.all(
+    packages.map(pkg => 
+      client.getPackageStats({ name: pkg })
+    )
+  );
+
+  // Create comparison matrix
+  const comparison = results.map(pkg => ({
+    name: pkg.name,
+    metrics: {
+      downloads: pkg.downloads.weekly,
+      bundleSize: pkg.bundle.gzip,
+      quality: pkg.quality.score,
+      security: pkg.security.risk_score
+    }
+  }));
+
+  return comparison;
+}
+
+// Example usage
+const alternatives = ['moment', 'date-fns', 'dayjs'];
+const comparison = await comparePackages(alternatives);
+```
+
+## Best Practices
+
+### Package Selection Checklist
+
+<Check>
+  ✓ Verify download trends are stable or growing
+</Check>
+<Check>
+  ✓ Confirm bundle size is acceptable for your use case
+</Check>
+<Check>
+  ✓ Check for recent updates and active maintenance
+</Check>
+<Check>
+  ✓ Review security vulnerabilities and fixes
+</Check>
+<Check>
+  ✓ Assess documentation quality and completeness
+</Check>
+<Check>
+  ✓ Evaluate community support and engagement
+</Check>
+<Check>
+  ✓ Consider TypeScript support if relevant
+</Check>
+<Check>
+  ✓ Review license compatibility
+</Check>
+
+### Monitoring and Updates
+
+```typescript
+// Set up package monitoring
+const monitor = await client.createWebhook({
+  url: 'https://your-domain.com/webhooks/npm',
+  events: [
+    'package.update',
+    'security.vulnerability',
+    'quality.change'
+  ],
+  packages: ['react', 'lodash'],
+  config: {
+    notify_on_change: true,
+    min_severity: 'medium'
+  }
+});
+
+// Monitor bundle size changes
+const sizeAlert = await client.createAlert({
+  type: 'bundle_size',
+  package: 'react',
+  threshold: {
+    max_increase: 10000, // bytes
+    notify_on_exceed: true
+  }
+});
+```
+
+## Advanced Analysis
+
+### Custom Metrics
+
+```typescript
+// Create custom analysis
+async function analyzePackage(packageName: string) {
+  // Gather all metrics
+  const [
+    stats,
+    bundle,
+    security,
+    deps
+  ] = await Promise.all([
+    client.getPackageStats({ name: packageName }),
+    client.getBundleAnalysis({ name: packageName }),
+    client.getSecurityInfo({ name: packageName }),
+    client.getDependencies({ name: packageName })
+  ]);
+
+  // Calculate composite score
+  const score = calculateScore({
+    downloads: stats.downloads.weekly,
+    bundleSize: bundle.size.gzip,
+    security: security.risk_score,
+    maintenance: stats.quality.maintenance,
+    dependencies: deps.direct.length
+  });
+
+  return {
+    name: packageName,
+    score,
+    metrics: {
+      popularity: normalizeDownloads(stats.downloads.weekly),
+      size: normalizeBundleSize(bundle.size.gzip),
+      risk: normalizeRisk(security.risk_score),
+      health: stats.quality.maintenance
+    },
+    recommendation: getRecommendation(score)
+  };
+}
+```
+
+### Trend Analysis
+
+```typescript
+// Analyze long-term trends
+async function analyzeTrends(packageName: string) {
+  const history = await client.getVersionHistory({
+    name: packageName,
+    limit: 100
+  });
+
+  // Analyze release patterns
+  const releases = history.versions.map(v => ({
+    version: v.version,
+    date: new Date(v.published_at),
+    changes: v.changes
+  }));
+
+  // Calculate key metrics
+  return {
+    releaseFrequency: calculateReleaseFrequency(releases),
+    breakingChanges: countBreakingChanges(releases),
+    maintenanceScore: assessMaintenance(releases),
+    stabilityIndex: calculateStability(releases)
+  };
+}
+```
+
+## Related Resources
+
+- [Dependency Management Guide](/guides/dependency-management)
+- [Security Best Practices](/guides/security-best-practices)
+- [API Integration Guide](/guides/api-integration)
+- [Package Statistics API](/api-reference/endpoints/package-stats)
+- [Bundle Analysis API](/api-reference/endpoints/bundle-size)
+- [Security API](/api-reference/endpoints/security) 

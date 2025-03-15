@@ -1,0 +1,81 @@
+{
+  "name": "NpmStats",
+  "logo": {
+    "light": "/logo.svg",
+    "dark": "/logo.svg",
+    "href": "https://npmstats.ingeniousclan.com"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#0066FF",
+    "light": "#3385FF",
+    "dark": "#0052CC"
+  },
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "https://npmstats.ingeniousclan.com/package"
+  },
+  "anchors": [
+    {
+      "name": "Community",
+      "icon": "discord",
+      "url": "https://discord.gg/ingeniousclan"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/yokesh-ks/ingeniousclan_npmstats_web"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": ["introduction", "quickstart", "development"]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/package-analysis",
+        "guides/dependency-management",
+        "guides/security-best-practices",
+        "guides/versioning",
+        "guides/migration",
+        "guides/monitoring",
+        "guides/webhooks",
+        "guides/api-integration"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": ["api-reference/authentication", "api-reference/rate-limits"]
+    },
+    {
+      "group": "Endpoints",
+      "pages": [
+        "api-reference/endpoints/package-stats",
+        "api-reference/endpoints/bundle-size",
+        "api-reference/endpoints/dependencies",
+        "api-reference/endpoints/security",
+        "api-reference/endpoints/versions",
+        "api-reference/endpoints/similar",
+        "api-reference/endpoints/search",
+        "api-reference/endpoints/webhooks",
+        "api-reference/endpoints/health"
+      ]
+    }
+  ],
+  "tabs": [
+    {
+      "name": "Guides",
+      "url": "guides"
+    },
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/yokesh-ks",
+    "linkedin": "https://www.linkedin.com/company/ingeniousclan"
+  }
+}

@@ -1,0 +1,224 @@
+---
+title: 'API Reference'
+description: 'Complete reference for the NpmStats API'
+---
+
+## Overview
+
+The NpmStats API provides programmatic access to all NpmStats features, allowing you to integrate package analytics, security scanning, and dependency analysis into your own applications and workflows.
+
+## API Basics
+
+### Base URL
+
+```bash
+https://api.npmstats.ingeniousclan.com/v1
+```
+
+### Request Format
+
+All requests should be made over HTTPS and include your API key in the Authorization header:
+
+```bash
+Authorization: Bearer your-api-key
+```
+
+### Response Format
+
+All responses are returned in JSON format:
+
+```json
+{
+  "success": true,
+  "data": {
+    // Response data here
+  },
+  "meta": {
+    "timestamp": "2024-03-15T12:00:00Z",
+    "requestId": "req_123abc"
+  }
+}
+```
+
+## Authentication
+
+<Steps>
+  <Step title="Get API Key">
+    Generate an API key from your [NpmStats Dashboard](https://npmstats.ingeniousclan.com/dashboard/api)
+  </Step>
+  <Step title="Include Header">
+    Add the Authorization header to all requests
+  </Step>
+  <Step title="Verify">
+    Test authentication with the `/health` endpoint
+  </Step>
+</Steps>
+
+## Rate Limiting
+
+<CardGroup cols={2}>
+  <Card title="Free Tier" icon="gauge-simple">
+    - 1,000 requests per day
+    - 60 requests per minute
+    - Basic endpoints only
+  </Card>
+  <Card title="Pro Tier" icon="gauge-high">
+    - 10,000 requests per day
+    - 300 requests per minute
+    - All endpoints
+  </Card>
+</CardGroup>
+
+### Rate Limit Headers
+
+```bash
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+X-RateLimit-Reset: 1573581600
+```
+
+## Available Endpoints
+
+### Package Statistics
+
+<CardGroup cols={2}>
+  <Card title="Download Stats" icon="chart-line">
+    Track package downloads and usage
+    ```bash
+    GET /package/:name/stats
+    ```
+  </Card>
+  <Card title="Bundle Analysis" icon="box">
+    Analyze package sizes
+    ```bash
+    GET /package/:name/bundle
+    ```
+  </Card>
+</CardGroup>
+
+### Dependencies
+
+<CardGroup cols={2}>
+  <Card title="Dependency Tree" icon="sitemap">
+    Get package dependencies
+    ```bash
+    GET /package/:name/dependencies
+    ```
+  </Card>
+  <Card title="Security Scan" icon="shield">
+    Check for vulnerabilities
+    ```bash
+    GET /package/:name/security
+    ```
+  </Card>
+</CardGroup>
+
+## Using the API
+
+### Example Request
+
+```typescript
+import { NpmStats } from '@npmstats/api';
+
+const client = new NpmStats('your-api-key');
+
+// Get package statistics
+const stats = await client.getPackageStats({
+  name: 'react',
+  period: 'last-month'
+});
+
+console.log(stats.downloads.total);
+```
+
+### Error Handling
+
+<AccordionGroup>
+  <Accordion title="Common Error Codes">
+    ```json
+    {
+      "error": {
+        "code": "rate_limit_exceeded",
+        "message": "Rate limit exceeded",
+        "status": 429
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Error Types">
+    - 400: Bad Request
+    - 401: Unauthorized
+    - 403: Forbidden
+    - 404: Not Found
+    - 429: Rate Limit Exceeded
+    - 500: Server Error
+  </Accordion>
+</AccordionGroup>
+
+## SDKs & Libraries
+
+### Official SDKs
+
+<CardGroup cols={2}>
+  <Card title="JavaScript/TypeScript" icon="js">
+    ```bash
+    npm install @npmstats/api
+    ```
+  </Card>
+  <Card title="Python" icon="python">
+    ```bash
+    pip install npmstats
+    ```
+  </Card>
+</CardGroup>
+
+### Community Libraries
+
+- [Go Client](https://github.com/community/npmstats-go)
+- [Ruby Gem](https://github.com/community/npmstats-ruby)
+- [PHP Package](https://github.com/community/npmstats-php)
+
+## Best Practices
+
+### Performance
+
+1. Use appropriate cache headers
+2. Implement rate limiting
+3. Handle errors gracefully
+4. Batch requests when possible
+
+### Security
+
+<Steps>
+  <Step title="API Key Security">
+    Never expose API keys in client-side code
+  </Step>
+  <Step title="HTTPS Only">
+    Always use HTTPS for requests
+  </Step>
+  <Step title="Input Validation">
+    Validate all input parameters
+  </Step>
+  <Step title="Error Handling">
+    Handle errors securely
+  </Step>
+</Steps>
+
+## Support
+
+- [API Status](https://status.npmstats.ingeniousclan.com)
+- [Developer Discord](https://discord.gg/npmstats)
+- [GitHub Issues](https://github.com/yokesh-ks/ingeniousclan_npmstats_web/issues)
+- Email: [api@npmstats.ingeniousclan.com](mailto:api@npmstats.ingeniousclan.com)
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api-reference/authentication">
+    Learn about API authentication
+  </Card>
+  <Card title="Rate Limits" icon="gauge" href="/api-reference/rate-limits">
+    Understand rate limiting
+  </Card>
+</CardGroup> 

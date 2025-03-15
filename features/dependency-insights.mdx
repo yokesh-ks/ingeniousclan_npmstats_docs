@@ -1,0 +1,216 @@
+---
+title: 'Dependency Insights'
+description: 'Understand and manage your NPM package dependencies effectively'
+---
+
+## Overview
+
+Dependency Insights provides a comprehensive view of package dependencies, helping you understand relationships between packages, identify potential issues, and maintain a healthy dependency tree.
+
+## Key Features
+
+### Dependency Analysis
+
+<CardGroup cols={2}>
+  <Card title="Direct Dependencies" icon="arrow-right">
+    - Primary dependencies
+    - Version requirements
+    - Compatibility status
+  </Card>
+  <Card title="Indirect Dependencies" icon="diagram-project">
+    - Transitive dependencies
+    - Dependency chains
+    - Version conflicts
+  </Card>
+</CardGroup>
+
+### Dependency Graph
+
+<CardGroup cols={2}>
+  <Card title="Visualization" icon="chart-network">
+    - Interactive dependency tree
+    - Relationship mapping
+    - Circular dependencies
+  </Card>
+  <Card title="Impact Analysis" icon="weight-scale">
+    - Bundle size impact
+    - Update implications
+    - Breaking changes
+  </Card>
+</CardGroup>
+
+## Using Dependency Insights
+
+### Analyzing Dependencies
+
+<Steps>
+  <Step title="Select Package">
+    Choose a package to analyze
+  </Step>
+  <Step title="View Dependencies">
+    Explore the dependency tree
+  </Step>
+  <Step title="Check Compatibility">
+    Review version compatibility
+  </Step>
+  <Step title="Identify Issues">
+    Spot potential problems
+  </Step>
+</Steps>
+
+### Understanding the Dependency Tree
+
+<AccordionGroup>
+  <Accordion title="Tree Structure">
+    ```mermaid
+    graph TD
+    A[Your Package] --> B[Direct Dep 1]
+    A --> C[Direct Dep 2]
+    B --> D[Indirect Dep 1]
+    C --> D
+    C --> E[Indirect Dep 2]
+    ```
+  </Accordion>
+  
+  <Accordion title="Version Resolution">
+    Example of version resolution:
+    ```json
+    {
+      "dependencies": {
+        "react": "^18.0.0",
+        "lodash": "~4.17.21"
+      },
+      "devDependencies": {
+        "typescript": "5.0.x"
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Conflict Detection">
+    - Multiple versions of same package
+    - Incompatible peer dependencies
+    - Version range conflicts
+  </Accordion>
+</AccordionGroup>
+
+## API Integration
+
+### Fetching Dependency Data
+
+```typescript
+import { analyzeDependencies } from '@npmstats/api';
+
+// Get dependency analysis
+const deps = await analyzeDependencies({
+  package: 'your-package',
+  version: 'latest',
+  depth: 'full'
+});
+```
+
+### Monitoring Dependencies
+
+```typescript
+import { watchDependencies } from '@npmstats/api';
+
+// Set up dependency monitoring
+const watcher = watchDependencies({
+  package: 'your-package',
+  onUpdate: (changes) => {
+    console.log('Dependency updates:', changes);
+  }
+});
+```
+
+## Best Practices
+
+### Dependency Management
+
+1. Regular dependency audits
+2. Version pinning strategy
+3. Peer dependency handling
+4. Update planning
+
+### Common Issues
+
+<AccordionGroup>
+  <Accordion title="Version Conflicts">
+    - Multiple versions installed
+    - Incompatible requirements
+    - Resolution strategies
+  </Accordion>
+  
+  <Accordion title="Security Vulnerabilities">
+    - Outdated dependencies
+    - Known vulnerabilities
+    - Security patches
+  </Accordion>
+  
+  <Accordion title="Performance Impact">
+    - Bundle size bloat
+    - Duplicate packages
+    - Unnecessary dependencies
+  </Accordion>
+</AccordionGroup>
+
+## Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Package Maintainers" icon="box">
+    - Manage dependencies
+    - Track updates
+    - Handle conflicts
+  </Card>
+  <Card title="Development Teams" icon="users">
+    - Dependency governance
+    - Update coordination
+    - Security compliance
+  </Card>
+</CardGroup>
+
+## Optimization Strategies
+
+### Dependency Cleanup
+
+<Steps>
+  <Step title="Audit Dependencies">
+    Review all dependencies regularly
+  </Step>
+  <Step title="Remove Unused">
+    Identify and remove unused packages
+  </Step>
+  <Step title="Update Outdated">
+    Keep dependencies up to date
+  </Step>
+  <Step title="Resolve Conflicts">
+    Address version conflicts
+  </Step>
+</Steps>
+
+### Version Management
+
+<CardGroup cols={2}>
+  <Card title="Version Pinning" icon="thumbtack">
+    - Lock versions
+    - Update strategy
+    - Release planning
+  </Card>
+  <Card title="Update Policy" icon="arrows-rotate">
+    - Regular updates
+    - Breaking changes
+    - Security patches
+  </Card>
+</CardGroup>
+
+## Related Features
+
+- [Security Scanning](/features/security-scanning)
+- [Bundle Analysis](/features/bundle-analysis)
+- [Version History](/features/version-history)
+
+## Additional Resources
+
+- [Dependencies API](/api-reference/endpoints/dependencies)
+- [Dependency Guide](/guides/managing-dependencies)
+- [Update Strategy Guide](/guides/update-strategies) 

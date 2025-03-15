@@ -1,0 +1,245 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate with the NpmStats API'
+---
+
+## Overview
+
+NpmStats uses API keys to authenticate requests. You can view and manage your API keys in the [NpmStats Dashboard](https://npmstats.ingeniousclan.com/dashboard/api).
+
+## Getting Started
+
+### Obtaining an API Key
+
+<Steps>
+  <Step title="Sign In">
+    Log in to your [NpmStats account](https://npmstats.ingeniousclan.com/login)
+  </Step>
+  <Step title="Navigate">
+    Go to [API Settings](https://npmstats.ingeniousclan.com/dashboard/api)
+  </Step>
+  <Step title="Generate Key">
+    Click "Generate New API Key"
+  </Step>
+  <Step title="Configure">
+    Set key name and permissions
+  </Step>
+</Steps>
+
+## Using Your API Key
+
+### Authentication Header
+
+Include your API key in the `Authorization` header of all requests:
+
+```bash
+Authorization: Bearer your-api-key
+```
+
+### Example Request
+
+```typescript
+// Using fetch
+const response = await fetch('https://api.npmstats.ingeniousclan.com/v1/package/react/stats', {
+  headers: {
+    'Authorization': 'Bearer your-api-key'
+  }
+});
+
+// Using axios
+const axios = require('axios');
+axios.defaults.headers.common['Authorization'] = 'Bearer your-api-key';
+```
+
+## API Key Management
+
+### Key Types
+
+<CardGroup cols={2}>
+  <Card title="Development Keys" icon="code">
+    - Rate limited
+    - Testing environment
+    - Debug information
+  </Card>
+  <Card title="Production Keys" icon="rocket">
+    - Higher limits
+    - Production environment
+    - Performance optimized
+  </Card>
+</CardGroup>
+
+### Key Permissions
+
+<AccordionGroup>
+  <Accordion title="Read-only">
+    - View package statistics
+    - Access analytics data
+    - Read dependency info
+  </Accordion>
+  
+  <Accordion title="Read-write">
+    - All read permissions
+    - Create webhooks
+    - Configure alerts
+  </Accordion>
+  
+  <Accordion title="Admin">
+    - All read-write permissions
+    - Manage team access
+    - Create API keys
+  </Accordion>
+</AccordionGroup>
+
+## Security Best Practices
+
+### Protecting Your API Keys
+
+1. Never expose keys in client-side code
+2. Use environment variables
+3. Rotate keys regularly
+4. Use separate keys for different environments
+
+### Environment Variables
+
+```bash
+# .env file
+NPMSTATS_API_KEY=your-api-key
+```
+
+```typescript
+// Node.js
+require('dotenv').config();
+const apiKey = process.env.NPMSTATS_API_KEY;
+
+// React (Next.js)
+const apiKey = process.env.NEXT_PUBLIC_NPMSTATS_API_KEY;
+```
+
+## Key Rotation
+
+### Rotating API Keys
+
+<Steps>
+  <Step title="Generate New Key">
+    Create a new API key with the same permissions
+  </Step>
+  <Step title="Update Applications">
+    Deploy the new key to your applications
+  </Step>
+  <Step title="Monitor Usage">
+    Verify the new key is working
+  </Step>
+  <Step title="Revoke Old Key">
+    Delete the old API key
+  </Step>
+</Steps>
+
+## Error Handling
+
+### Authentication Errors
+
+<AccordionGroup>
+  <Accordion title="Invalid API Key">
+    ```json
+    {
+      "error": {
+        "code": "invalid_api_key",
+        "message": "The API key provided is invalid",
+        "status": 401
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Missing API Key">
+    ```json
+    {
+      "error": {
+        "code": "missing_api_key",
+        "message": "No API key provided",
+        "status": 401
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Insufficient Permissions">
+    ```json
+    {
+      "error": {
+        "code": "insufficient_permissions",
+        "message": "API key doesn't have required permissions",
+        "status": 403
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Using with SDKs
+
+### Official SDK Authentication
+
+```typescript
+// JavaScript/TypeScript
+import { NpmStats } from '@npmstats/api';
+const client = new NpmStats('your-api-key');
+
+// Python
+from npmstats import NpmStats
+client = NpmStats('your-api-key')
+```
+
+### Custom Implementation
+
+```typescript
+class NpmStatsClient {
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  async request(endpoint: string) {
+    const response = await fetch(`https://api.npmstats.ingeniousclan.com/v1${endpoint}`, {
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`
+      }
+    });
+    return response.json();
+  }
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+  <Accordion title="Key Not Working">
+    - Verify key is active
+    - Check permissions
+    - Confirm correct environment
+  </Accordion>
+  
+  <Accordion title="Rate Limiting">
+    - Check current usage
+    - Review rate limits
+    - Consider upgrading plan
+  </Accordion>
+  
+  <Accordion title="Permission Denied">
+    - Verify required permissions
+    - Check key restrictions
+    - Review access logs
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Rate Limits" icon="gauge" href="/api-reference/rate-limits">
+    Learn about API rate limits
+  </Card>
+  <Card title="API Endpoints" icon="code" href="/api-reference/endpoints/package-stats">
+    Explore available endpoints
+  </Card>
+</CardGroup> 

@@ -1,0 +1,320 @@
+---
+title: 'Dependency Management Guide'
+description: 'Learn how to effectively manage NPM dependencies using NpmStats'
+---
+
+## Introduction
+
+Effective dependency management is crucial for maintaining healthy JavaScript/TypeScript projects. This guide will show you how to use NpmStats to analyze, optimize, and maintain your project's dependencies.
+
+## Understanding Dependencies
+
+### Types of Dependencies
+
+<CardGroup cols={2}>
+  <Card title="Direct Dependencies" icon="box">
+    - Explicitly listed in package.json
+    - Directly used in your code
+    - First-level dependencies
+  </Card>
+  <Card title="Transitive Dependencies" icon="diagram-project">
+    - Dependencies of dependencies
+    - Indirect requirements
+    - Nested dependencies
+  </Card>
+  <Card title="Development Dependencies" icon="code">
+    - Used for development
+    - Testing frameworks
+    - Build tools
+  </Card>
+  <Card title="Peer Dependencies" icon="handshake">
+    - Shared dependencies
+    - Plugin requirements
+    - Framework compatibilities
+  </Card>
+</CardGroup>
+
+## Analyzing Dependencies
+
+### Project Analysis
+
+```typescript
+import { NpmStats } from '@npmstats/api';
+
+const client = new NpmStats('your-api-key');
+
+// Analyze project dependencies
+async function analyzeProject(packageJson: string) {
+  const deps = await client.analyzeDependencies({
+    manifest: packageJson,
+    include: ['direct', 'dev', 'transitive']
+  });
+
+  console.log('Total Dependencies:', deps.total);
+  console.log('Direct Dependencies:', deps.direct.length);
+  console.log('Dev Dependencies:', deps.dev.length);
+  console.log('Transitive Dependencies:', deps.transitive.length);
+}
+```
+
+### Dependency Tree
+
+<Steps>
+  <Step title="Generate Dependency Tree">
+    ```typescript
+    const tree = await client.getDependencyTree({
+      name: 'your-package',
+      version: '1.0.0'
+    });
+
+    // Visualize tree
+    console.log(tree.format());
+    ```
+  </Step>
+
+  <Step title="Analyze Dependencies">
+    ```typescript
+    const analysis = await client.analyzeDependencyImpact({
+      dependencies: tree.dependencies,
+      include_metrics: true
+    });
+
+    // Check impact
+    console.log('Bundle Impact:', analysis.bundle.total);
+    console.log('Security Issues:', analysis.security.total);
+    ```
+  </Step>
+
+  <Step title="Identify Issues">
+    ```typescript
+    const issues = await client.checkDependencyIssues({
+      tree: tree,
+      checks: ['security', 'outdated', 'duplicates']
+    });
+
+    // Review issues
+    if (issues.security.length > 0) {
+      console.warn('Security vulnerabilities found!');
+    }
+    ```
+  </Step>
+
+  <Step title="Optimize Dependencies">
+    ```typescript
+    const optimization = await client.getOptimizationSuggestions({
+      tree: tree,
+      criteria: ['size', 'security', 'maintenance']
+    });
+
+    // Apply suggestions
+    console.log('Recommended Updates:', optimization.updates);
+    console.log('Potential Removals:', optimization.removals);
+    ```
+  </Step>
+</Steps>
+
+## Dependency Health Checks
+
+### Regular Maintenance
+
+<AccordionGroup>
+  <Accordion title="Version Management">
+    - Check for outdated packages
+    - Review update impact
+    - Plan upgrade strategy
+    - Test compatibility
+  </Accordion>
+  
+  <Accordion title="Security Audits">
+    - Scan for vulnerabilities
+    - Review security advisories
+    - Check fix availability
+    - Assess risk levels
+  </Accordion>
+  
+  <Accordion title="Performance Impact">
+    - Monitor bundle size
+    - Check tree-shaking
+    - Analyze load times
+    - Optimize imports
+  </Accordion>
+  
+  <Accordion title="Dependency Cleanup">
+    - Remove unused packages
+    - Consolidate duplicates
+    - Update peer dependencies
+    - Optimize dev dependencies
+  </Accordion>
+</AccordionGroup>
+
+### Automated Monitoring
+
+```typescript
+// Set up dependency monitoring
+const monitor = await client.createDependencyMonitor({
+  project: 'your-project',
+  config: {
+    check_frequency: 'daily',
+    notifications: {
+      security: 'immediate',
+      updates: 'weekly',
+      performance: 'monthly'
+    },
+    thresholds: {
+      security_severity: 'medium',
+      bundle_size_increase: '5%',
+      outdated_days: 90
+    }
+  }
+});
+
+// Configure alerts
+await monitor.setAlerts([
+  {
+    type: 'security',
+    severity: ['high', 'critical'],
+    notify: ['slack', 'email']
+  },
+  {
+    type: 'bundle_size',
+    threshold: 1024 * 50, // 50KB
+    notify: ['slack']
+  }
+]);
+```
+
+## Best Practices
+
+### Dependency Selection
+
+<Check>
+  ✓ Evaluate package quality and maintenance
+</Check>
+<Check>
+  ✓ Check bundle size impact
+</Check>
+<Check>
+  ✓ Review security history
+</Check>
+<Check>
+  ✓ Verify license compatibility
+</Check>
+<Check>
+  ✓ Consider community support
+</Check>
+<Check>
+  ✓ Test version compatibility
+</Check>
+<Check>
+  ✓ Check update frequency
+</Check>
+<Check>
+  ✓ Assess documentation quality
+</Check>
+
+### Version Control
+
+```typescript
+// Version management strategy
+async function manageVersions(dependencies: string[]) {
+  const updates = await client.checkUpdates({
+    dependencies,
+    type: ['major', 'minor', 'patch']
+  });
+
+  // Group by update type
+  const grouped = updates.reduce((acc, update) => {
+    acc[update.type].push(update);
+    return acc;
+  }, { major: [], minor: [], patch: [] });
+
+  // Plan updates
+  const plan = {
+    immediate: grouped.patch, // Safe updates
+    planned: grouped.minor,   // Feature updates
+    major: grouped.major      // Breaking changes
+  };
+
+  return plan;
+}
+```
+
+## Advanced Management
+
+### Dependency Graph Analysis
+
+```typescript
+// Analyze dependency relationships
+async function analyzeDependencyGraph(packageName: string) {
+  const graph = await client.getDependencyGraph({
+    name: packageName,
+    depth: 'full'
+  });
+
+  // Find critical paths
+  const criticalPaths = graph.findCriticalPaths({
+    criteria: ['security', 'maintenance']
+  });
+
+  // Analyze centrality
+  const central = graph.analyzeCentrality();
+  const keyDependencies = central
+    .filter(dep => dep.score > 0.8)
+    .map(dep => dep.name);
+
+  return {
+    criticalPaths,
+    keyDependencies,
+    metrics: graph.getMetrics()
+  };
+}
+```
+
+### Optimization Strategies
+
+```typescript
+// Optimize dependency tree
+async function optimizeDependencies(manifest: any) {
+  // Analyze current state
+  const current = await client.analyzeDependencyImpact({
+    manifest,
+    include_metrics: true
+  });
+
+  // Get optimization suggestions
+  const suggestions = await client.getOptimizations({
+    manifest,
+    strategies: [
+      'dedupe',
+      'upgrade',
+      'replace',
+      'remove'
+    ]
+  });
+
+  // Calculate impact
+  const impact = await Promise.all(
+    suggestions.map(async suggestion => ({
+      ...suggestion,
+      impact: await client.calculateOptimizationImpact({
+        manifest,
+        changes: suggestion.changes
+      })
+    }))
+  );
+
+  // Sort by impact
+  return impact.sort((a, b) => 
+    b.impact.improvement - a.impact.improvement
+  );
+}
+```
+
+## Related Resources
+
+- [Package Analysis Guide](/guides/package-analysis)
+- [Security Best Practices](/guides/security-best-practices)
+- [Version Management](/guides/versioning)
+- [Dependencies API](/api-reference/endpoints/dependencies)
+- [Security API](/api-reference/endpoints/security)
+- [Bundle Analysis API](/api-reference/endpoints/bundle-size) 

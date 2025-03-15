@@ -1,0 +1,242 @@
+---
+title: 'Security Scanning'
+description: 'Identify and fix security vulnerabilities in your NPM packages'
+---
+
+## Overview
+
+Security Scanning helps you identify, assess, and remediate security vulnerabilities in your NPM packages and their dependencies. Stay ahead of security threats with real-time monitoring and automated alerts.
+
+## Key Features
+
+### Vulnerability Detection
+
+<CardGroup cols={2}>
+  <Card title="Known Vulnerabilities" icon="shield-exclamation">
+    - CVE database matching
+    - Severity assessment
+    - Exploit potential
+  </Card>
+  <Card title="Dependency Scanning" icon="magnifying-glass">
+    - Deep dependency analysis
+    - Version vulnerabilities
+    - Supply chain risks
+  </Card>
+</CardGroup>
+
+### Security Monitoring
+
+<CardGroup cols={2}>
+  <Card title="Real-time Alerts" icon="bell">
+    - Instant notifications
+    - Severity-based alerts
+    - Custom thresholds
+  </Card>
+  <Card title="Audit Reports" icon="file-lines">
+    - Detailed findings
+    - Remediation steps
+    - Historical data
+  </Card>
+</CardGroup>
+
+## Using Security Scanning
+
+### Running a Security Scan
+
+<Steps>
+  <Step title="Select Package">
+    Choose the package to scan
+  </Step>
+  <Step title="Configure Scan">
+    Set scan parameters and depth
+  </Step>
+  <Step title="Review Results">
+    Analyze security findings
+  </Step>
+  <Step title="Take Action">
+    Apply recommended fixes
+  </Step>
+</Steps>
+
+### Understanding Results
+
+<AccordionGroup>
+  <Accordion title="Severity Levels">
+    ```mermaid
+    graph LR
+    A[Critical] --> B[High]
+    B --> C[Medium]
+    C --> D[Low]
+    ```
+    - Critical: Immediate action required
+    - High: Prioritize fixing
+    - Medium: Plan remediation
+    - Low: Monitor situation
+  </Accordion>
+  
+  <Accordion title="Vulnerability Types">
+    - Remote Code Execution (RCE)
+    - Cross-Site Scripting (XSS)
+    - Denial of Service (DoS)
+    - Information Disclosure
+    - Dependency Confusion
+  </Accordion>
+  
+  <Accordion title="Fix Recommendations">
+    - Version updates
+    - Alternative packages
+    - Code patches
+    - Configuration changes
+  </Accordion>
+</AccordionGroup>
+
+## API Integration
+
+### Running Security Checks
+
+```typescript
+import { scanPackageSecurity } from '@npmstats/api';
+
+// Perform security scan
+const results = await scanPackageSecurity({
+  package: 'your-package',
+  version: 'latest',
+  includeIndirect: true,
+  severityThreshold: 'medium'
+});
+```
+
+### Setting Up Alerts
+
+```typescript
+import { setupSecurityAlerts } from '@npmstats/api';
+
+// Configure security monitoring
+const alerts = await setupSecurityAlerts({
+  package: 'your-package',
+  notifications: {
+    email: true,
+    slack: true,
+    webhook: 'https://your-webhook.com'
+  },
+  severity: ['critical', 'high']
+});
+```
+
+## Best Practices
+
+### Security Policies
+
+1. Regular security audits
+2. Automated vulnerability scanning
+3. Quick patch deployment
+4. Security update strategy
+
+### Risk Management
+
+<CardGroup cols={2}>
+  <Card title="Assessment" icon="clipboard-check">
+    - Vulnerability impact
+    - Exploitation likelihood
+    - Business risk
+  </Card>
+  <Card title="Mitigation" icon="shield-check">
+    - Patch application
+    - Version updates
+    - Alternative solutions
+  </Card>
+</CardGroup>
+
+## Common Vulnerabilities
+
+### Types of Issues
+
+<AccordionGroup>
+  <Accordion title="Code Execution">
+    - Remote code execution
+    - Command injection
+    - Arbitrary file access
+  </Accordion>
+  
+  <Accordion title="Data Security">
+    - Information leakage
+    - Data exposure
+    - Encryption issues
+  </Accordion>
+  
+  <Accordion title="Supply Chain">
+    - Dependency confusion
+    - Malicious packages
+    - Typosquatting
+  </Accordion>
+</AccordionGroup>
+
+## Remediation Strategies
+
+### Fixing Vulnerabilities
+
+<Steps>
+  <Step title="Assess Impact">
+    Evaluate vulnerability severity and scope
+  </Step>
+  <Step title="Plan Response">
+    Develop remediation strategy
+  </Step>
+  <Step title="Apply Fixes">
+    Implement security patches
+  </Step>
+  <Step title="Verify">
+    Confirm vulnerability resolution
+  </Step>
+</Steps>
+
+### Prevention
+
+<CardGroup cols={2}>
+  <Card title="Proactive Measures" icon="shield">
+    - Regular updates
+    - Security best practices
+    - Dependency management
+  </Card>
+  <Card title="Monitoring" icon="eye">
+    - Continuous scanning
+    - Alert configuration
+    - Audit logging
+  </Card>
+</CardGroup>
+
+## Compliance
+
+### Security Standards
+
+- OWASP Top 10
+- CWE Database
+- NIST Guidelines
+- Industry Standards
+
+### Reporting
+
+<CardGroup cols={2}>
+  <Card title="Audit Reports" icon="file-contract">
+    - Vulnerability details
+    - Risk assessment
+    - Remediation status
+  </Card>
+  <Card title="Compliance Docs" icon="certificate">
+    - Security policies
+    - Audit trails
+    - Incident reports
+  </Card>
+</CardGroup>
+
+## Related Features
+
+- [Dependency Insights](/features/dependency-insights)
+- [Version History](/features/version-history)
+- [Real-time Analytics](/features/real-time-analytics)
+
+## Additional Resources
+
+- [Security API](/api-reference/endpoints/security)
+- [Security Guide](/guides/security-best-practices)
+- [Vulnerability Database](https://nvd.nist.gov) 

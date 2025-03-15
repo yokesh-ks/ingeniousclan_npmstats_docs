@@ -1,0 +1,142 @@
+---
+title: 'Quickstart Guide'
+description: 'Get started with NpmStats in minutes'
+---
+
+## Overview
+
+This guide will help you get started with NpmStats and show you how to use its main features effectively.
+
+## Using the Web Interface
+
+### Package Search
+
+1. Visit [npmstats.ingeniousclan.com](https://npmstats.ingeniousclan.com)
+2. Enter a package name in the search bar (e.g., "react", "lodash", "express")
+3. Click "Search" or press Enter
+
+### Analyzing Package Details
+
+Once you've searched for a package, you'll see:
+
+<AccordionGroup>
+  <Accordion title="Download Statistics">
+    - Daily, weekly, and monthly download trends
+    - Historical download data
+    - Geographic distribution of downloads
+  </Accordion>
+  
+  <Accordion title="Bundle Size Analysis">
+    - Minified and gzipped sizes
+    - Size comparison with similar packages
+    - Size history across versions
+  </Accordion>
+  
+  <Accordion title="Dependencies">
+    - Direct dependencies
+    - Dev dependencies
+    - Dependency tree visualization
+    - Impact on bundle size
+  </Accordion>
+  
+  <Accordion title="Security Analysis">
+    - Known vulnerabilities
+    - Security advisories
+    - Remediation suggestions
+  </Accordion>
+</AccordionGroup>
+
+## Using the API
+
+### Authentication
+
+```bash
+# Get your API key from the dashboard
+export NPMSTATS_API_KEY="your-api-key"
+```
+
+### Making API Requests
+
+```bash
+# Get package statistics
+curl -X GET "https://api.npmstats.ingeniousclan.com/v1/package/react" \
+  -H "Authorization: Bearer $NPMSTATS_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "name": "react",
+  "version": "18.2.0",
+  "stats": {
+    "downloads": {
+      "last_day": 5234567,
+      "last_week": 36789012,
+      "last_month": 157890123
+    },
+    "bundle_size": {
+      "minified": "128.4 kB",
+      "gzipped": "42.2 kB"
+    }
+  }
+}
+```
+
+## Common Use Cases
+
+### Evaluating New Dependencies
+
+<Steps>
+  <Step title="Search Package">
+    Look up the package you're considering
+  </Step>
+  <Step title="Check Stats">
+    Review download trends and community adoption
+  </Step>
+  <Step title="Analyze Bundle Impact">
+    Evaluate the impact on your bundle size
+  </Step>
+  <Step title="Review Security">
+    Check for any security concerns
+  </Step>
+</Steps>
+
+### Monitoring Your Packages
+
+<Steps>
+  <Step title="Add to Dashboard">
+    Add your packages to the monitoring dashboard
+  </Step>
+  <Step title="Configure Alerts">
+    Set up alerts for security issues or unusual trends
+  </Step>
+  <Step title="Track Metrics">
+    Monitor download trends and user adoption
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="API Documentation"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Explore our API endpoints and integrate NpmStats into your workflow
+  </Card>
+  <Card
+    title="Feature Guides"
+    icon="book"
+    href="/features/real-time-analytics"
+  >
+    Learn more about NpmStats features in detail
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+- Join our [Discord Community](https://discord.gg/npmstats)
+- Email us at [support@npmstats.ingeniousclan.com](mailto:support@npmstats.ingeniousclan.com)
+- Check out our [FAQ](/guides/faq)

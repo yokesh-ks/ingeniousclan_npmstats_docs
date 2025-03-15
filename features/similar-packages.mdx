@@ -1,0 +1,234 @@
+---
+title: 'Similar Packages'
+description: 'Discover and compare alternative NPM packages'
+---
+
+## Overview
+
+The Similar Packages feature helps you discover and evaluate alternative NPM packages that serve similar purposes. Make informed decisions by comparing packages based on various metrics and characteristics.
+
+## Key Features
+
+### Package Discovery
+
+<CardGroup cols={2}>
+  <Card title="Smart Search" icon="magnifying-glass">
+    - Semantic matching
+    - Category-based search
+    - Keyword analysis
+  </Card>
+  <Card title="Recommendations" icon="stars">
+    - Popular alternatives
+    - Rising packages
+    - Community favorites
+  </Card>
+</CardGroup>
+
+### Comparison Tools
+
+<CardGroup cols={2}>
+  <Card title="Metric Comparison" icon="chart-bar">
+    - Download trends
+    - Bundle sizes
+    - Update frequency
+  </Card>
+  <Card title="Feature Analysis" icon="list-check">
+    - Feature matrices
+    - API compatibility
+    - Use case matching
+  </Card>
+</CardGroup>
+
+## Using Package Discovery
+
+### Finding Alternatives
+
+<Steps>
+  <Step title="Search Package">
+    Enter a package name or category
+  </Step>
+  <Step title="View Alternatives">
+    Browse similar packages
+  </Step>
+  <Step title="Compare Options">
+    Analyze package differences
+  </Step>
+  <Step title="Make Decision">
+    Choose the best fit
+  </Step>
+</Steps>
+
+### Understanding Comparisons
+
+<AccordionGroup>
+  <Accordion title="Comparison Matrix">
+    Example feature comparison:
+    ```markdown
+    | Feature          | Package A | Package B | Package C |
+    |-----------------|-----------|-----------|-----------|
+    | TypeScript      | ✅        | ✅        | ❌        |
+    | Tree Shaking    | ✅        | ❌        | ✅        |
+    | Browser Support | Modern    | All       | Modern    |
+    | Size (gzip)     | 12.4 kB   | 45.2 kB   | 8.7 kB    |
+    ```
+  </Accordion>
+  
+  <Accordion title="Popularity Metrics">
+    ```mermaid
+    graph LR
+    A[Downloads] --> D[Popularity Score]
+    B[Stars] --> D
+    C[Contributors] --> D
+    E[Updates] --> D
+    ```
+  </Accordion>
+  
+  <Accordion title="Community Insights">
+    - User reviews
+    - GitHub activity
+    - Stack Overflow presence
+    - Twitter mentions
+  </Accordion>
+</AccordionGroup>
+
+## API Integration
+
+### Finding Similar Packages
+
+```typescript
+import { findSimilarPackages } from '@npmstats/api';
+
+// Get similar packages
+const alternatives = await findSimilarPackages({
+  package: 'moment',
+  limit: 5,
+  metrics: ['downloads', 'size', 'maintenance']
+});
+```
+
+### Comparing Packages
+
+```typescript
+import { comparePackages } from '@npmstats/api';
+
+// Compare multiple packages
+const comparison = await comparePackages({
+  packages: ['date-fns', 'moment', 'dayjs'],
+  metrics: ['size', 'performance', 'features']
+});
+```
+
+## Comparison Criteria
+
+### Key Metrics
+
+<CardGroup cols={2}>
+  <Card title="Quantitative" icon="chart-simple">
+    - Download counts
+    - Bundle sizes
+    - Update frequency
+    - Issue resolution time
+  </Card>
+  <Card title="Qualitative" icon="star">
+    - Code quality
+    - Documentation
+    - Community support
+    - Maintenance status
+  </Card>
+</CardGroup>
+
+### Feature Analysis
+
+<Steps>
+  <Step title="Core Features">
+    Compare primary functionality
+  </Step>
+  <Step title="Extra Features">
+    Evaluate additional capabilities
+  </Step>
+  <Step title="Implementation">
+    Assess ease of use
+  </Step>
+  <Step title="Ecosystem">
+    Review plugin/extension support
+  </Step>
+</Steps>
+
+## Decision Making
+
+### Selection Criteria
+
+<AccordionGroup>
+  <Accordion title="Technical Factors">
+    - Performance metrics
+    - Bundle size impact
+    - API design
+    - TypeScript support
+  </Accordion>
+  
+  <Accordion title="Community Factors">
+    - Maintenance activity
+    - Community size
+    - Support quality
+    - Learning resources
+  </Accordion>
+  
+  <Accordion title="Business Factors">
+    - License type
+    - Commercial support
+    - Long-term viability
+    - Migration effort
+  </Accordion>
+</AccordionGroup>
+
+## Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Package Selection" icon="check-double">
+    - Initial package choice
+    - Alternative evaluation
+    - Migration planning
+  </Card>
+  <Card title="Market Research" icon="microscope">
+    - Competitive analysis
+    - Feature research
+    - Trend monitoring
+  </Card>
+</CardGroup>
+
+## Best Practices
+
+### Evaluation Process
+
+1. Define requirements clearly
+2. Compare core features
+3. Assess maintenance status
+4. Check community health
+5. Test performance impact
+
+### Migration Planning
+
+<CardGroup cols={2}>
+  <Card title="Analysis" icon="magnifying-glass-chart">
+    - Feature mapping
+    - Breaking changes
+    - Migration effort
+  </Card>
+  <Card title="Implementation" icon="code-branch">
+    - Gradual migration
+    - Testing strategy
+    - Rollback plan
+  </Card>
+</CardGroup>
+
+## Related Features
+
+- [Bundle Analysis](/features/bundle-analysis)
+- [Dependency Insights](/features/dependency-insights)
+- [Real-time Analytics](/features/real-time-analytics)
+
+## Additional Resources
+
+- [Package Comparison API](/api-reference/endpoints/similar)
+- [Selection Guide](/guides/package-selection)
+- [Migration Guide](/guides/package-migration) 

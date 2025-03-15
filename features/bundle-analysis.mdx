@@ -1,0 +1,199 @@
+---
+title: 'Bundle Analysis'
+description: 'Analyze and optimize your NPM package bundle sizes'
+---
+
+## Overview
+
+Bundle analysis helps you understand the size impact of NPM packages on your application, enabling you to make informed decisions about dependencies and optimize your application's performance.
+
+## Key Metrics
+
+### Size Measurements
+
+<CardGroup cols={2}>
+  <Card title="Raw Size" icon="file">
+    - Unpacked size
+    - Source code size
+    - Asset sizes
+  </Card>
+  <Card title="Published Size" icon="box">
+    - Minified size
+    - Gzipped size
+    - Tree-shaken size
+  </Card>
+</CardGroup>
+
+### Performance Metrics
+
+<CardGroup cols={2}>
+  <Card title="Load Impact" icon="gauge">
+    - Download time
+    - Parse time
+    - Execution time
+  </Card>
+  <Card title="Tree Shaking" icon="tree">
+    - Dead code elimination
+    - Module usage analysis
+    - Import cost
+  </Card>
+</CardGroup>
+
+## Using the Bundle Analyzer
+
+### Analyzing a Package
+
+<Steps>
+  <Step title="Select Package">
+    Enter the package name and version
+  </Step>
+  <Step title="View Analysis">
+    Examine the detailed breakdown
+  </Step>
+  <Step title="Compare Versions">
+    Check size changes across versions
+  </Step>
+  <Step title="Export Report">
+    Download detailed analysis report
+  </Step>
+</Steps>
+
+### Understanding the Results
+
+<AccordionGroup>
+  <Accordion title="Size Breakdown">
+    ```mermaid
+    graph TD
+    A[Total Size] --> B[Source Code]
+    A --> C[Dependencies]
+    B --> D[Components]
+    B --> E[Utils]
+    C --> F[Direct]
+    C --> G[Indirect]
+    ```
+  </Accordion>
+  
+  <Accordion title="Import Cost">
+    Learn about the cost of different import methods:
+    ```typescript
+    // Full import
+    import _ from 'lodash' // 🚫 Large bundle
+
+    // Selective import
+    import { map } from 'lodash' // ⚠️ Still includes full package
+
+    // Direct import
+    import map from 'lodash/map' // ✅ Optimal
+    ```
+  </Accordion>
+  
+  <Accordion title="Tree Shaking Analysis">
+    Understand which parts of the package are tree-shakeable:
+    - Used exports
+    - Unused exports
+    - Side effects
+  </Accordion>
+</AccordionGroup>
+
+## API Integration
+
+### Getting Bundle Analysis
+
+```typescript
+import { analyzeBundleSize } from '@npmstats/api';
+
+// Analyze package bundle
+const analysis = await analyzeBundleSize({
+  package: 'react',
+  version: '18.2.0',
+  format: 'esm',
+  includeSubmodules: true
+});
+```
+
+### Comparing Versions
+
+```typescript
+import { compareBundleSizes } from '@npmstats/api';
+
+// Compare package versions
+const comparison = await compareBundleSizes({
+  package: 'react',
+  versions: ['17.0.0', '18.0.0', '18.2.0']
+});
+```
+
+## Optimization Strategies
+
+### Size Reduction Tips
+
+1. Use selective imports
+2. Implement code splitting
+3. Enable tree shaking
+4. Remove unused dependencies
+
+### Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Development" icon="code">
+    - Use development builds
+    - Enable source maps
+    - Monitor size changes
+  </Card>
+  <Card title="Production" icon="rocket">
+    - Optimize bundles
+    - Enable compression
+    - Use CDN delivery
+  </Card>
+</CardGroup>
+
+## Common Issues
+
+### Size Problems
+
+<AccordionGroup>
+  <Accordion title="Large Dependencies">
+    - Identify heavy dependencies
+    - Find lightweight alternatives
+    - Implement lazy loading
+  </Accordion>
+  
+  <Accordion title="Duplicate Code">
+    - Detect duplicate packages
+    - Resolve version conflicts
+    - Use package deduplication
+  </Accordion>
+  
+  <Accordion title="Dead Code">
+    - Remove unused imports
+    - Implement tree shaking
+    - Clean up dependencies
+  </Accordion>
+</AccordionGroup>
+
+## Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Package Authors" icon="pen">
+    - Optimize package size
+    - Track size changes
+    - Improve distribution
+  </Card>
+  <Card title="Application Developers" icon="laptop-code">
+    - Evaluate dependencies
+    - Optimize imports
+    - Reduce bundle size
+  </Card>
+</CardGroup>
+
+## Related Features
+
+- [Dependency Insights](/features/dependency-insights)
+- [Version History](/features/version-history)
+- [Real-time Analytics](/features/real-time-analytics)
+
+## Additional Resources
+
+- [Bundle Size API](/api-reference/endpoints/bundle-size)
+- [Optimization Guide](/guides/optimizing-dependencies)
+- [Size Comparison Guide](/guides/comparing-packages) 

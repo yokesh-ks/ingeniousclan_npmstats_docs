@@ -1,0 +1,203 @@
+---
+title: 'Development Guide'
+description: 'Learn how to set up NpmStats locally and contribute to the project'
+---
+
+## Local Development Setup
+
+### Prerequisites
+
+- Node.js 18 or higher
+- pnpm (recommended) or npm
+- Git
+
+### Getting Started
+
+<Steps>
+  <Step title="Clone the Repository">
+    ```bash
+    git clone https://github.com/yokesh-ks/ingeniousclan_npmstats_web.git
+    cd ingeniousclan_npmstats_web
+    ```
+  </Step>
+  <Step title="Install Dependencies">
+    ```bash
+    pnpm install
+    ```
+  </Step>
+  <Step title="Set Up Environment Variables">
+    ```bash
+    cp .env.example .env.local
+    # Edit .env.local with your configuration
+    ```
+  </Step>
+  <Step title="Start Development Server">
+    ```bash
+    pnpm dev
+    ```
+    Visit [http://localhost:3000](http://localhost:3000) to see your local instance.
+  </Step>
+</Steps>
+
+## Project Structure
+
+```
+ingeniousclan_npmstats_web/
+├── app/              # Next.js app directory
+├── src/             
+│   ├── components/   # Reusable UI components
+│   ├── lib/         # Utility functions and helpers
+│   ├── hooks/       # Custom React hooks
+│   └── types/       # TypeScript type definitions
+├── public/          # Static assets
+└── config/         # Configuration files
+```
+
+## Key Technologies
+
+- **Framework**: Next.js 14 with App Router
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Charts**: Recharts
+- **State Management**: React Context
+- **Package Data**: npm Registry API
+- **Bundle Analysis**: Bundlephobia API
+
+## Development Workflow
+
+### Code Style
+
+We use ESLint and Prettier for code formatting:
+
+```bash
+# Check code style
+pnpm lint
+
+# Format code
+pnpm format
+```
+
+### Testing
+
+```bash
+# Run unit tests
+pnpm test
+
+# Run e2e tests
+pnpm test:e2e
+
+# Run tests in watch mode
+pnpm test:watch
+```
+
+### Building for Production
+
+```bash
+# Create production build
+pnpm build
+
+# Preview production build
+pnpm start
+```
+
+## API Integration
+
+### Authentication
+
+```typescript
+import { getNpmStats } from '@/lib/api';
+
+// Example API usage
+const stats = await getNpmStats({
+  packageName: 'react',
+  period: '1y'
+});
+```
+
+### Error Handling
+
+```typescript
+try {
+  const data = await getNpmStats(params);
+} catch (error) {
+  if (error instanceof RateLimitError) {
+    // Handle rate limiting
+  } else if (error instanceof PackageNotFoundError) {
+    // Handle missing package
+  }
+}
+```
+
+## Contributing
+
+### Pull Request Process
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Commit Guidelines
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```bash
+feat: add new feature
+fix: resolve bug
+docs: update documentation
+style: format code
+refactor: restructure code
+test: add tests
+chore: update dependencies
+```
+
+## Performance Optimization
+
+### Bundle Size
+
+Monitor bundle size using our built-in analyzer:
+
+```bash
+pnpm analyze
+```
+
+### Caching Strategy
+
+We use SWR for data fetching and caching:
+
+```typescript
+import useSWR from 'swr';
+
+function PackageStats({ name }) {
+  const { data, error } = useSWR(`/api/stats/${name}`, fetcher);
+  // ...
+}
+```
+
+## Deployment
+
+### Production Deployment
+
+Deployments are automated through our CI/CD pipeline:
+
+1. Merge to `main` triggers deployment to staging
+2. Creating a release triggers deployment to production
+3. Hotfixes follow an expedited process
+
+### Environment Variables
+
+Required environment variables:
+
+```bash
+NEXT_PUBLIC_API_URL=https://api.npmstats.ingeniousclan.com
+NPM_REGISTRY_TOKEN=your_token_here
+BUNDLEPHOBIA_API_KEY=your_key_here
+```
+
+## Need Help?
+
+- Check our [Contributing Guidelines](CONTRIBUTING.md)
+- Join our [Discord Community](https://discord.gg/npmstats)
+- Open an [Issue](https://github.com/yokesh-ks/ingeniousclan_npmstats_web/issues)
+- Email [dev@npmstats.ingeniousclan.com](mailto:dev@npmstats.ingeniousclan.com)
